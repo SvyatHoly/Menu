@@ -104,3 +104,16 @@ extension UIStackView {
         insertSubview(subView, at: 0)
     }
 }
+
+extension UIDevice {
+    var scale: CGFloat {
+        UIScreen.main.bounds.width / 414
+    }
+}
+
+extension NSLayoutConstraint {
+    @IBInspectable private var shouldScale: Bool {
+        set { constant *= UIDevice.current.scale }
+        get { assertionFailure("Should never be used this way"); return false }
+    }
+}

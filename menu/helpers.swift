@@ -84,11 +84,15 @@ enum IphoneModel {
 }
 
 
-struct MenuButtonType {
+struct MenuButtonType: Codable {
     let name: String
     let purchasable: Bool
     let id: String
     let description: String
+    
+    var title: String {
+        "\"\(name)\"\n\(description)"
+    }
 }
 
 struct ModeConstant {

@@ -1,6 +1,8 @@
 [
     {"name": "Rave", "purchasable": false, "id": "null", "description": "This sound represents mood of a night clubbing and raving."},
-    {"name": "Elements", "purchasable": false, "id": "com.armaapp.arma.magic", "description": "Happy hippie vibes"}
+    {"name": "Elements", "purchasable": false, "id": "com.armaapp.arma.magic", "description": "Happy hippie vibes"},
+    {"name": "Blizzard", "purchasable": false, "id": "blizzard", "description": "This sound represents mood of a Blizzard."},
+    {"name": "Forge", "purchasable": false, "id": "com.armaapp.arma.forge", "description": "Forge vibes"}
 ]
 
 

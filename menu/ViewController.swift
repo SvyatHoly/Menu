@@ -234,27 +234,14 @@ struct Static {
         return iphoneModel
      }
     
-     static func parseButtons() -> [MenuButtonType] {
-         var menuButtonsArr = [MenuButtonType]()
-         let path = Bundle.main.url(forResource: "menuButtons", withExtension: "json")
-         
-         guard let data = try? NSData(contentsOf: path!, options: NSData.ReadingOptions.uncached) as Data
-             else { return menuButtonsArr }
-         
-         do {
-             let JSON = try JSONSerialization.jsonObject(with: data, options: [])
-             
-             guard let jsonArray = JSON as? [Any] else { return menuButtonsArr }
-             for btn in jsonArray {
-                 if let dict = btn as? [String: Any] {
-                     let btnObject = MenuButtonType(name: dict["name"] as! String, purchasable: (dict["purchasable"] as! Bool), id: dict["id"] as! String, description: dict["description"] as! String )
-                     menuButtonsArr.append(btnObject)
-                 }
-             }
-         } catch let e as NSError {
-             print(e)
-         }
-         return menuButtonsArr
+    static func parseButtons() -> [MenuButtonType] {
+        let path = Bundle.main.url(forResource: "menuButtons", withExtension: "json")!
+        do {
+            let data = try Data(contentsOf: path)
+            return try JSONDecoder().decode([MenuButtonType].self, from: data)
+        } catch {
+            fatalError(error.localizedDescription)
+        }
      }
  }
 
