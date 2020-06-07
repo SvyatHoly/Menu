@@ -60,10 +60,7 @@ final class DrumRecordsViewController: UIViewController {
     private var movingToRecord: RecordsPosition? {
         didSet {
             if movingToRecord != oldValue, let movingToRecord = movingToRecord {
-                print("Moving from \(lastVisibleRecord) to \(movingToRecord)")
-                
                 let offset = movingToRecord.previous == lastVisibleRecord ? 1 : -1
-//                print("Need to add \(offset) to \(lastVisibleRecord.opposite)\n")
                 defer { lastOffset = offset }
                 
                 let nextIndex = currentHiddenIndex + offset
@@ -80,22 +77,6 @@ final class DrumRecordsViewController: UIViewController {
                 default:
                     currentHiddenIndex = nextIndex
                 }
-//                switch (currentHiddenIndex, nextIndex) {
-//                case let (x, y) where x - 1 == y:
-//                    currentHiddenIndex -= 2
-//                case (2, 1):
-//                    currentHiddenIndex = -2
-//                case (-2, -1):
-//                    currentHiddenIndex = 2
-//                default:
-//                    currentHiddenIndex = nextIndex
-//                }
-                
-//                if (0...2).contains(currentHiddenIndex) {
-//                    currentHiddenIndex = -2
-//                } else if (-2...0).contains(currentHiddenIndex) {
-//                    currentHiddenIndex = 2
-//                }
                 
                 recordsViews[lastVisibleRecord.opposite.rawValue].image = getImage(for: currentHiddenIndex)
             }
@@ -125,7 +106,6 @@ final class DrumRecordsViewController: UIViewController {
         }
         
         let diff = currentAngle - lastAngle
-//        print(diff)
         if diff > 0 {
             movingToRecord = lastVisibleRecord.previous
         } else {
