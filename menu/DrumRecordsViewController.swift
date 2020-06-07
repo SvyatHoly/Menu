@@ -49,19 +49,47 @@ final class DrumRecordsViewController: UIViewController {
             circleView.addSubview(recordImageView)
         }
         
-        let drag = UIPanGestureRecognizer(target: self, action: #selector(didDragRecord))
-        circleView.addGestureRecognizer(drag)
+        let up = UISwipeGestureRecognizer(target: self, action: #selector(swipeUp))
+        let down = UISwipeGestureRecognizer(target: self, action: #selector(swipeDown))
+        up.direction = .up
+        down.direction = .down
+        view.addGestureRecognizer(up)
+        view.addGestureRecognizer(down)
+    }
+    
+    @objc func swipeUp() {
+        movingToRecord = lastVisibleRecord.next
+        lastVisibleRecord = movingToRecord!
+        
+        let nextAngle = lastAngle - .pi / 2
+        defer { lastAngle = nextAngle }
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.allowUserInteraction, .beginFromCurrentState], animations: {
+            self.applyTransform(for: nextAngle)
+        }, completion: nil)
+    }
+    
+    @objc func swipeDown() {
+        movingToRecord = lastVisibleRecord.previous
+        lastVisibleRecord = movingToRecord!
+        
+        let nextAngle = lastAngle + .pi / 2
+        defer { lastAngle = nextAngle }
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.allowUserInteraction, .beginFromCurrentState], animations: {
+            self.applyTransform(for: nextAngle)
+        }, completion: nil)
     }
     
     private var lastAngle: CGFloat = 0
     private var lastVisibleRecord: RecordsPosition = .east
-    
     private var lastOffset = 0
+    private var currentHiddenIndex = 2
     private var movingToRecord: RecordsPosition? {
         didSet {
             if movingToRecord != oldValue, let movingToRecord = movingToRecord {
                 let offset = movingToRecord.previous == lastVisibleRecord ? 1 : -1
-                defer { lastOffset = offset }
+                defer {
+                    lastOffset = offset
+                }
                 
                 let nextIndex = currentHiddenIndex + offset
                 let secretValue = 2
@@ -83,7 +111,6 @@ final class DrumRecordsViewController: UIViewController {
         }
     }
     
-    var currentHiddenIndex = 2
     func getImage(for index: Int) -> UIImage {
         let count = menuItems.count
         var remainder = index % count
@@ -93,61 +120,7 @@ final class DrumRecordsViewController: UIViewController {
         }
         
         let getIndex = index >= 0 ? remainder : count + remainder
-        print("\(index): \(getIndex) : \(menuItems[getIndex].name)")
         return UIImage(named: menuItems[getIndex].name)!
-    }
-    
-    @objc private func didDragRecord(_ sender: UIPanGestureRecognizer) {
-        let y = sender.translation(in: nil).y
-        let clipRange = lastAngle - .pi / 2.1 ... lastAngle + .pi / 2.1
-        var currentAngle = .pi / 2 * y / constants.recordSide + lastAngle
-        @inline(__always) func clampedAngle(_ angle: CGFloat) -> CGFloat {
-            max(clipRange.lowerBound, min(clipRange.upperBound, angle))
-        }
-        
-        let diff = currentAngle - lastAngle
-        if diff > 0 {
-            movingToRecord = lastVisibleRecord.previous
-        } else {
-            movingToRecord = lastVisibleRecord.next
-        }
-        
-        currentAngle = clampedAngle(currentAngle)
-        
-        var nearestAngle = calculateNearestAngle(to: currentAngle, by: .pi / 2)
-        var currentPosition = recordPosition(for: nearestAngle)
-        
-        switch sender.state {
-        case .changed:
-            UIView.animate(withDuration: 0.1) {
-                self.applyTransform(for: currentAngle)
-            }
-        case .ended:
-            defer {
-                lastVisibleRecord = currentPosition
-            }
-            
-            defer {
-                lastAngle = nearestAngle
-            }
-            
-            let velocity = sender.velocity(in: nil).y
-            if velocity / y > 10 {
-                let offset: CGFloat = velocity > 0 ? .pi / 2 : -.pi / 2
-                nearestAngle = calculateNearestAngle(to: clampedAngle(currentAngle + offset), by: .pi / 2)
-                currentPosition = recordPosition(for: nearestAngle)
-            }
-            
-            let m = Double(abs(velocity) / (view.frame.height * 2))
-            let minDuration = 0.2, maxDuration = 0.3
-            let duration = max(min(maxDuration / (1 - abs(m)), maxDuration), minDuration)
-            UIView.animate(withDuration: duration, delay: 0, options: [.allowUserInteraction, .beginFromCurrentState], animations: {
-                self.applyTransform(for: nearestAngle)
-            }, completion: nil)
-            
-        default:
-            break
-        }
     }
     
     func applyTransform(for angle: CGFloat) {
