@@ -64,7 +64,7 @@ final class DrumRecordsViewController: UIViewController {
                 defer { lastOffset = offset }
                 
                 let nextIndex = currentHiddenIndex + offset
-                let secretValue = 2//menuItems.count - recordsViews.count
+                let secretValue = 2
                 switch (lastOffset, offset) {
                 case (-1, 1):
                     currentHiddenIndex -= secretValue
