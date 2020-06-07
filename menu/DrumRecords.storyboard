@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wqp-wl-iW1">
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Drum Records View Controller-->
+        <scene sceneID="lKv-tA-rAh">
+            <objects>
+                <viewController id="wqp-wl-iW1" customClass="DrumRecordsViewController" customModule="menu" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vI8-dJ-5Eg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arma1.2menu11.png" translatesAutoresizingMaskIntoConstraints="NO" id="AFa-9l-93r">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="AFa-9l-93r" firstAttribute="top" secondItem="kuA-X0-GdV" secondAttribute="top" id="bJE-OK-APV"/>
+                            <constraint firstItem="AFa-9l-93r" firstAttribute="leading" secondItem="kuA-X0-GdV" secondAttribute="leading" id="hFV-q4-GxR"/>
+                            <constraint firstItem="kuA-X0-GdV" firstAttribute="trailing" secondItem="AFa-9l-93r" secondAttribute="trailing" id="lup-y2-CFj"/>
+                            <constraint firstItem="kuA-X0-GdV" firstAttribute="bottom" secondItem="AFa-9l-93r" secondAttribute="bottom" id="ydF-yN-hHe"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="kuA-X0-GdV"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ljI-cu-A6U" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-85.507246376811594" y="-337.5"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="arma1.2menu11.png" width="3726" height="8064"/>
+    </resources>
+</document>

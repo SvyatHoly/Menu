@@ -95,6 +95,10 @@ struct MenuButtonType: Codable {
     }
 }
 
+extension Notification.Name {
+    static let menuScrollDidScroll = Notification.Name("com.holyandglory.menu.menuScrollDidScroll")
+}
+
 struct ModeConstant {
     let string: String
     let int: Int
